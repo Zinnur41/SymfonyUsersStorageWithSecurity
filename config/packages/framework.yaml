@@ -17,6 +17,12 @@ framework:
     #fragments: true
     php_errors:
         log: true
+    assets:
+        packages:
+            css:
+                base_path: assets/css
+            images:
+                base_path: assets/images
 
 when@test:
     framework:
