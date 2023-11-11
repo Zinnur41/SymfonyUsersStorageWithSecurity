@@ -18,11 +18,13 @@ class UserService
         $this->passwordHasher = $passwordHasher;
     }
 
-    public function getAllUsers(): array {
+    public function getAllUsers(): array
+    {
         return $this->entityManager->getRepository(User::class)->findAll();
     }
 
-    public function addUser(array $fields): void {
+    public function addUser(array $fields): void
+    {
         $user = new User();
         $user->setEmail($fields['email']);
         $user->setFirstName($fields['firstName']);
@@ -36,6 +38,13 @@ class UserService
         );
         $user->setPassword($hashedPassword);
         $this->entityManager->persist($user);
+        $this->entityManager->flush();
+    }
+
+    public function deleteUser($id): void
+    {
+        $user = $this->entityManager->getRepository(User::class)->find($id);
+        $this->entityManager->remove($user);
         $this->entityManager->flush();
     }
 }

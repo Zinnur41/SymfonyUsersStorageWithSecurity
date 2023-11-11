@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -22,25 +24,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $email = null;
 
     #[ORM\Column]
+    #[NotBlank]
     private array $roles = [];
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[NotBlank]
     private ?string $password = null;
 
     #[ORM\Column(length: 100)]
+    #[NotBlank]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 100)]
+    #[NotBlank]
     private ?string $secondName = null;
 
     #[ORM\Column(length: 100)]
+    #[NotBlank]
     private ?string $thirdName = null;
 
     #[ORM\Column]
+    #[NotBlank]
     private ?int $age = null;
+
+    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Comment::class, orphanRemoval: true)]
+    private Collection $comment;
+
+    public function __construct()
+    {
+        $this->comment = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -156,6 +172,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAge(int $age): static
     {
         $this->age = $age;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComment(): Collection
+    {
+        return $this->comment;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comment->contains($comment)) {
+            $this->comment->add($comment);
+            $comment->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comment->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getUsers() === $this) {
+                $comment->setUsers(null);
+            }
+        }
 
         return $this;
     }

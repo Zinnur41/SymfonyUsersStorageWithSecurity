@@ -23,6 +23,8 @@ framework:
                 base_path: assets/css
             images:
                 base_path: assets/images
+            js:
+                base_path: assets/js
 
 when@test:
     framework:

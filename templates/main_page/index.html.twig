@@ -3,7 +3,6 @@
 {% block title %}mainPage{% endblock %}
 
 {% block body %}
-
     <div>
         {% if is_granted('ROLE_USER') %}
             <h1>Добро пожаловать, {{ app.user.email }}</h1>
@@ -12,7 +11,7 @@
             <h1><a class="btn btn-primary" href='{{ path('app_login') }}' role="button">Войти</a> <a class="btn btn-primary" href='{{ path('app_registration') }}' role="button">Зарегистрироваться</a></h1>
         {% endif %}
         <a class="btn btn-primary" href='{{ path('app_images') }}' role="button">Открыть картинку</a>
-        {% if is_granted('ROLE_USER') %}
+        {% if is_granted('ROLE_ADMIN') %}
         <a class="btn btn-primary" href='{{ path('app_admin') }}' role="button">Список пользователей</a>
         {% endif %}
     </div>

@@ -3,5 +3,50 @@
 {% block title %}Admin{% endblock %}
 
 {% block body %}
-
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>№</th>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Отчество</th>
+                <th>Возраст</th>
+                <th>email</th>
+                <th>Роль</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ user.firstName }}</td>
+                <td>{{ user.secondName }}</td>
+                <td>{{ user.thirdName }}</td>
+                <td>{{ user.age }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    {% for role in user.roles %}
+                        {{ role }}
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for comment in user.comment %}
+                        {{ comment.comment }}
+                    {% endfor %}
+                </td>
+                <td><a class="btn btn-primary" href="{{ path('app_admin_show_addComment', {id: user.id}) }}" style="width: 115px; height: 55px">Написать комментарий</a></td>
+                <td>
+                    <form action="{{ path('app_admin_deleteUser') }}" method="post">
+                        <input type="hidden" name="id" value="{{ user.id }}">
+                        <input class="btn btn-danger" type="submit" value="Удалить">
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a class="btn btn-primary" href="{{ path('app_main_page') }}">На главную</a>
 {% endblock %}

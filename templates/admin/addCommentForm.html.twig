@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}addComment{% endblock %}
+
+{% block body %}
+   <form action="{{ path('app_admin_addComment') }}" method="post">
+      <div class="form-group">
+         <input type="hidden" name="id" value="{{ id }}">
+         <label for="_comment">Написать комментарий</label>
+         <input type="text" class="form-control" id="_comment" name="comment">
+         <input type="submit" class="btn btn-primary" value="Отправить">
+      </div>
+   </form>
+{% endblock %}

@@ -7,22 +7,42 @@
     <link rel="stylesheet" href="{{ asset('index.css', 'css') }}">
 {% endblock %}
 
+{% block javascripts %}
+    <script src="{{ asset('index.js', 'js') }}"></script>
+{% endblock %}
+
 {% block body %}
-    <div class="form">
-        <form action="{{ path('app_add_registration') }}" method="post">
-            <label for="_firstName">Имя</label>
-            <input type="text" id="_firstName" name="firstName"><br>
-            <label for="_secondName">Фамилия</label>
-            <input type="text" id="_secondName" name="secondName"><br>
-            <label for="_thirdName">Отчество</label>
-            <input type="text" id="_thirdName" name="thirdName"><br>
-            <label for="_age">Возраст</label>
-            <input type="number" id="_age" name="age"><br>
-            <label for="_email">Email</label>
-            <input type="email" id="_email" name="email"><br>
-            <label for="_password">Пароль</label>
-            <input type="password" id="_password" name="password">
-            <input type="submit" value="Зарегистрироваться">
-        </form>
-    </div>
+    <form action="{{ path('app_add_registration') }}" method="post">
+        <div class="form">
+            <div class="field">
+                <label for="_firstName">Имя</label>
+                <input type="text" id="_firstName" name="firstName">
+            </div>
+            <div class="field">
+                <label for="_secondName">Фамилия</label>
+                <input type="text" id="_secondName" name="secondName">
+            </div>
+            <div class="field">
+                <label for="_thirdName">Отчество</label>
+                <input type="text" id="_thirdName" name="thirdName">
+            </div>
+            <div class="field">
+                <label for="_age">Возраст</label>
+                <input type="number" id="_age" name="age">
+            </div>
+            <div class="field">
+                <label for="_email">Email</label>
+                <input type="email" id="_email" name="email">
+            </div>
+            <div class="field">
+                <label for="_password">Пароль</label>
+                <input type="password" id="_password" name="password">
+            </div>
+            <div class="field">
+                <label for="_repeatPassword">Повторите пароль</label>
+                <input type="password" id="_repeatPassword" name="repeatPassword">
+            </div>
+            <input type="submit" name="submit" value="Зарегистрироваться">
+        </div>
+    </form>
 {% endblock %}
