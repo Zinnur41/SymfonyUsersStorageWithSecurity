@@ -37,7 +37,7 @@
                         {{ comment.comment }}
                     {% endfor %}
                 </td>
-                <td><a class="btn btn-primary" href="{{ path('app_admin_show_addComment', {id: user.id}) }}" style="width: 115px; height: 55px">Написать комментарий</a></td>
+                <td><a class="btn btn-primary" href="{{ path('app_admin_addComment', {id: user.id}) }}" style="width: 115px; height: 55px">Написать комментарий</a></td>
                 <td>
                     <form action="{{ path('app_admin_deleteUser') }}" method="post">
                         <input type="hidden" name="id" value="{{ user.id }}">

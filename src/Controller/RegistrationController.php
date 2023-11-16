@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\RegistrationType;
 use App\Service\UserService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -10,16 +11,21 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RegistrationController extends AbstractController
 {
-    #[Route('/registration', name: 'app_registration', methods: 'GET')]
-    public function index(): Response
+    #[Route('/registration', name: 'app_registration')]
+    public function index(Request $request, UserService $userService): Response
     {
-        return $this->render('registration/index.html.twig');
-    }
+        $form = $this->createForm(RegistrationType::class);
 
-    #[Route('/registration', name: 'app_add_registration', methods: 'POST')]
-    public function registration(UserService $userService, Request $request): Response {
-        $fields = $request->request->all();
-        $userService->addUser($fields);
-        return $this->redirectToRoute('app_main_page');
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $userService->addUser($data);
+            return $this->redirectToRoute('app_main_page');
+        }
+
+        return $this->render('registration/index.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }

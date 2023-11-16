@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\CommentType;
 use App\Service\CommentService;
 use App\Service\UserService;
 use phpDocumentor\Reflection\Types\This;
@@ -20,15 +21,35 @@ class AdminController extends AbstractController
             'users' => $users
         ]);
     }
+
     #[Route('/admin/delete', name: 'app_admin_deleteUser', methods: 'POST')]
-    public function deleteUser(UserService $userService, Request $request):Response
+    public function deleteUser(UserService $userService, Request $request): Response
     {
         $id = $request->request->get('id');
         $userService->deleteUser($id);
         return $this->redirectToRoute('app_admin');
     }
 
-    #[Route('/admin/addComment/{id}', name: 'app_admin_show_addComment', methods: 'GET')]
+    #[Route('/admin/addComment/{id}', name: 'app_admin_addComment')]
+    public function addComment($id, Request $request, CommentService $commentService): Response
+    {
+        $form = $this->createForm(CommentType::class, ['id' => $id]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $commentService->addComment($data['comment'], (int)$data['id']);
+            return $this->redirectToRoute('app_admin');
+        }
+        return $this->render('admin/addCommentForm.html.twig', [
+            'id' => $id,
+            'form' => $form->createView()
+        ]);
+    }
+}
+
+  /*  #[Route('/admin/addComment/{id}', name: 'app_admin_show_addComment', methods: 'GET')]
     public function showAddCommentForm($id): Response
     {
         return $this->render('admin/addCommentForm.html.twig', [
@@ -42,5 +63,4 @@ class AdminController extends AbstractController
         $userId = $request->request->get('id');
         $commentService->addComment($comment, $userId);
         return $this->redirectToRoute('app_admin');
-    }
-}
+    }*/
