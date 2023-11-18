@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Form\CommentType;
 use App\Service\CommentService;
 use App\Service\UserService;
-use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,18 +48,4 @@ class AdminController extends AbstractController
     }
 }
 
-  /*  #[Route('/admin/addComment/{id}', name: 'app_admin_show_addComment', methods: 'GET')]
-    public function showAddCommentForm($id): Response
-    {
-        return $this->render('admin/addCommentForm.html.twig', [
-            'id' => $id
-        ]);
-    }
-    #[Route('/admin/addComment', name: 'app_admin_addComment', methods: 'POST')]
-    public function addComment(CommentService $commentService, Request $request):Response
-    {
-        $comment = $request->request->get('comment');
-        $userId = $request->request->get('id');
-        $commentService->addComment($comment, $userId);
-        return $this->redirectToRoute('app_admin');
-    }*/
+
